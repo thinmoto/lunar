@@ -12,6 +12,7 @@ use Lunar\LivewireTables\Components\Columns\TextColumn;
 use Lunar\LivewireTables\Components\Filters\CheckboxFilter;
 use Lunar\LivewireTables\Components\Filters\SelectFilter;
 use Lunar\LivewireTables\Components\Table;
+use Lunar\Models\Brand;
 
 class ProductsTable extends Table
 {
@@ -59,6 +60,22 @@ class ProductsTable extends Table
 
                 if ($value) {
                     $query->whereStatus($value);
+                }
+            })
+        );
+
+        $this->tableBuilder->addFilter(
+            SelectFilter::make('brand')->options(function () {
+                $brands = Brand::query()->orderBy('name')->pluck('name', 'id');
+
+                return collect([
+                    null => 'All Brands',
+                ])->union($brands);
+            })->query(function ($filters, $query) {
+                $value = $filters->get('brand');
+
+                if ($value) {
+                    $query->whereBrandId($value);
                 }
             })
         );

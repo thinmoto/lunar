@@ -5,6 +5,7 @@ namespace Lunar\ScoutDatabaseEngine;
 use Illuminate\Support\Arr;
 use Laravel\Scout\Builder;
 use Laravel\Scout\Engines\Engine;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseEngine extends Engine
 {
@@ -121,7 +122,7 @@ class DatabaseEngine extends Engine
         return SearchIndex::where('index', '=', $index)
             ->when(
                 $builder->query,
-                fn ($query) => $query ->whereFullText('content', $builder->query.'*', ['mode' => 'boolean'])
+                fn ($query) => $query->whereRaw(DB::raw('content LIKE ?'), ['%'.$builder->query.'%'])
             );
     }
 

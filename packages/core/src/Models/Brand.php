@@ -54,6 +54,25 @@ class Brand extends BaseModel implements SpatieHasMedia
         return BrandFactory::new();
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($item) {
+            if(empty($item->attribute_data))
+            {
+                $item->attribute_data = json_decode('{
+    "renew_discount": {
+        "value": "0",
+        "field_type": "Lunar\\FieldTypes\\Number"
+    }
+}');
+            }
+
+            return $item;
+        });
+    }
+
     /**
      * Get the mapped attributes relation.
      *

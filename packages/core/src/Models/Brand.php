@@ -14,6 +14,8 @@ use Lunar\Base\Traits\HasUrls;
 use Lunar\Base\Traits\LogsActivity;
 use Lunar\Base\Traits\Searchable;
 use Lunar\Database\Factories\BrandFactory;
+use Lunar\FieldTypes\Number;
+use Lunar\FieldTypes\Text;
 use Spatie\MediaLibrary\HasMedia as SpatieHasMedia;
 
 /**

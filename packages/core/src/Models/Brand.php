@@ -61,12 +61,13 @@ class Brand extends BaseModel implements SpatieHasMedia
         static::creating(function ($item) {
             if(empty($item->attribute_data))
             {
-                $item->attribute_data = json_decode('{
-    "renew_discount": {
-        "value": "0",
-        "field_type": "Lunar\\FieldTypes\\Number"
-    }
-}');
+                $number = new Number();
+                $number->setValue(0); 
+
+                $text = new Text();
+                $text->setValue($item->name);
+
+                $item->attribute_data = ['name' => $text, 'renew_discount' => $number];
             }
 
             return $item;

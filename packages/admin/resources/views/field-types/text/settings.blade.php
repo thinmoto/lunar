@@ -1,4 +1,12 @@
 <x-hub::input.group
+  label="Textarea"
+  for="textarea"
+  :error="$errors->first('attribute.configuration.textarea')"
+  :disabled="!!$attribute->system"
+>
+  <x-hub::input.toggle :disabled="!!$attribute->system" :on-value="true" :off-value="false" wire:model="attribute.configuration.textarea" id="fieldType" />
+</x-hub::input.group>
+<x-hub::input.group
   label="Richtext"
   for="richtext"
   :error="$errors->first('attribute.configuration.richtext')"

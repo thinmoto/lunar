@@ -1,6 +1,6 @@
 <div> 
     @if ($error)
-        <div class="flex items-center gap-1 mt-2">
+        <div class="flex items-center gap-1 mt-2 withError">
             @if ($errorIcon)
                 <x-hub::icon ref="exclamation-circle"
                              class="w-5 h-5 text-red-500" />
@@ -11,7 +11,7 @@
     @endif
 
     @if (count($errors))
-        <div class="space-y-1">
+        <div class="space-y-1 withError">
             @foreach ($errors as $error)
                 @if (is_array($error))
                     @foreach ($error as $text)

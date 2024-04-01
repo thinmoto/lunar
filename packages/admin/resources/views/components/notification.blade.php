@@ -5,8 +5,20 @@
     remove(message) {
         this.messages.splice(this.messages.indexOf(message), 1)
     },
+    scrollToError() {
+        let withError = document.querySelector('.withError');
+
+        if(withError)
+        {
+            window.scroll({
+                behavior: 'smooth',
+                left: 0,
+                top: Math.max(0, withError.offsetTop - 130)
+            });
+        }
+    }
 }"
-     x-on:notify.window="level = $event.detail.level; messages.push($event.detail.message)"
+     x-on:notify.window="level = $event.detail.level; messages.push($event.detail.message); scrollToError();"
      x-init="$watch('messages', () => {
          clearTimeout(timeout)
          timeout = setTimeout(() => messages.shift(), 2000)

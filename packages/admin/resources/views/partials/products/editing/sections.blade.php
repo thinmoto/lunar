@@ -75,6 +75,14 @@
                 ])
             </div>
 
+            @foreach ($this->getSlotsByPosition('before-variant') as $slot)
+                <div id="{{ $slot->handle }}">
+                    <div>
+                        @livewire($slot->component, ['slotModel' => $product], key('product-slot-' . $slot->handle))
+                    </div>
+                </div>
+            @endforeach
+
             @if (!$this->variantsDisabled)
                 <div id="variants">
                     @include('adminhub::partials.products.editing.variants')
@@ -131,18 +139,18 @@
 
             @if ($product->id)
                 <div
-                    @class([
-                        'bg-white border rounded shadow',
-                        'border-red-300' => !$product->deleted_at,
-                        'border-gray-300' => $product->deleted_at,
-                    ])
+                        @class([
+                            'bg-white border rounded shadow',
+                            'border-red-300' => !$product->deleted_at,
+                            'border-gray-300' => $product->deleted_at,
+                        ])
                 >
                     <header
-                        @class([
-                            'px-6 py-4 bg-white border-b rounded-t',
-                            'border-red-300 text-red-700' => !$product->deleted_at,
-                            'border-gray-300 text-gray-700' => $product->deleted_at,
-                        ])
+                            @class([
+                                'px-6 py-4 bg-white border-b rounded-t',
+                                'border-red-300 text-red-700' => !$product->deleted_at,
+                                'border-gray-300 text-gray-700' => $product->deleted_at,
+                            ])
                     >
                         @if($product->deleted_at)
                             {{ __('adminhub::inputs.restore_zone.title') }}
@@ -286,7 +294,39 @@
                 </a>
             @endforeach
 
+                {{--before-variant--}}
+
             @foreach ($this->sideMenu as $item)
+                @if($item['id'] == 'variants')
+                        @foreach ($this->getSlotsByPosition('before-variant') as $slot)
+                            <a href="#{{ $slot->handle }}"
+                               @class([
+                                   'flex items-center gap-2 p-2 rounded text-gray-500',
+                                   'hover:bg-sky-50 hover:text-sky-700' => empty(
+                                       $this->getSlotErrorsByHandle($slot->handle)
+                                   ),
+                                   'text-red-600 bg-red-50' => !empty(
+                                       $this->getSlotErrorsByHandle($slot->handle)
+                                   ),
+                               ])
+                               aria-current="page"
+                               x-data="{ linkId: '#{{ $slot->handle }}' }"
+                               :class="{
+                       'bg-sky-50 text-sky-700 hover:text-sky-500': linkId === activeAnchorLink
+                   }"
+                               x-on:click="activeAnchorLink = linkId">
+                                @if (!empty($this->getSlotErrorsByHandle($slot->handle)))
+                                    <x-hub::icon ref="exclamation-circle"
+                                                 class="w-4 text-red-600" />
+                                @endif
+
+                                <span class="text-sm font-medium">
+                        {{ $slot->title }}
+                    </span>
+                            </a>
+                        @endforeach
+                @endif
+
                 <a href="#{{ $item['id'] }}"
                    @class([
                        'flex items-center gap-2 p-2 rounded text-gray-500',

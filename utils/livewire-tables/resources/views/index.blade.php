@@ -55,7 +55,7 @@
         </x-l-tables::support.modal>
     </div>
 
-    <div class="lt-overflow-hidden lt-border lt-border-gray-200 lt-rounded-lg">
+    <div class="lt-border lt-border-gray-200 lt-rounded-lg">
         <div x-data="{
             showFilters: false,
         }" class="lt-w-full lt-divide-y lt-divide-gray-200">
@@ -223,7 +223,7 @@
                 <div wire:poll.{{ $poll }}></div>
             @endif
 
-            <div class="lt-overflow-x-auto">
+            <div class="lt-overflow-y-visible">
                 @if (count($this->rows))
                     <table class="lt-min-w-full lt-divide-y lt-divide-gray-200">
                         <thead class="lt-bg-white">

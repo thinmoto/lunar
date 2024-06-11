@@ -18,6 +18,18 @@ class GetUnitPrice
     public function handle(CartLine $cartLine, Closure $next)
     {
         $purchasable = $cartLine->purchasable;
+
+        if(!$purchasable)
+        {
+            $cartLine->unitPrice = new Price(
+                0,
+                $cart->currency,
+                1
+            );
+
+            return $next($cartLine);
+        }
+
         $cart = $cartLine->cart;
 
         if ($customer = $cart->customer) {

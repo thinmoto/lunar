@@ -23,7 +23,7 @@ class GetUnitPrice
         {
             $cartLine->unitPrice = new Price(
                 0,
-                $cart->currency,
+                $cartLine->cart->currency,
                 1
             );
 

@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Lunar\Hub\Http\Controllers\ProductsController;
 use Lunar\Hub\Http\Livewire\Pages\Products\ProductCreate;
 use Lunar\Hub\Http\Livewire\Pages\Products\ProductShow;
 use Lunar\Hub\Http\Livewire\Pages\Products\ProductsIndex;
 use Lunar\Hub\Http\Livewire\Pages\Products\Variants\VariantShow;
+use Lunar\Models\Product;
 
 /**
  * Channel routes.
@@ -14,6 +16,7 @@ Route::group([
 ], function () {
     Route::get('/', ProductsIndex::class)->name('hub.products.index');
     Route::get('create', ProductCreate::class)->name('hub.products.create');
+    Route::get('/clone', [ProductsController::class, 'clone'])->name('hub.products.clone');
 
     Route::group([
         'prefix' => '{product}',

@@ -143,6 +143,14 @@ class ProductsTable extends Table
                 __('adminhub::tables.headings.product_type')
             ),
         ]);
+
+        $this->tableBuilder->addAction(
+            Action::make('clone')
+                ->label(__('adminhub::components.products.action-clone'))
+                ->url(function ($record) {
+                    return route('hub.products.clone', $record->id);
+                })
+        );
     }
 
     /**

@@ -14,6 +14,7 @@ use Lunar\LivewireTables\Components\Columns\TextColumn;
 use Lunar\LivewireTables\Components\Filters\CheckboxFilter;
 use Lunar\LivewireTables\Components\Filters\SelectFilter;
 use Lunar\LivewireTables\Components\Table;
+use Lunar\Models\Brand;
 
 class ProductsTable extends Table
 {

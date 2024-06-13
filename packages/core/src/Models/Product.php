@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Lunar\Base\BaseModel;
 use Lunar\Base\Casts\AsAttributeData;
 use Lunar\Base\Traits\HasChannels;
@@ -227,5 +228,60 @@ class Product extends BaseModel implements SpatieHasMedia
             'product_id',
             'priceable_id'
         )->wherePriceableType(ProductVariant::class);
+    }
+
+    public function clone()
+    {
+        $cloneProduct = $this->replicate();
+        $cloneProduct->push();
+
+        ## name
+        $attributeData = $cloneProduct->attribute_data;
+
+        $name = $attributeData->get('name')->getValue();
+
+        foreach($name as $k => $v)
+            $name[$k] = $v .= ' Copy';
+
+        $attributeData->get('name')->setValue($name);
+
+        $cloneProduct->attribute_data = $attributeData;
+        $cloneProduct->save();
+
+        ## collections
+        $collections = DB::table('lunar_collection_product')
+            ->where('product_id', $this->getKey())
+            ->get()->toArray();
+
+        foreach($collections as $collection)
+        {
+            unset($collection->id);
+            $collection->product_id = $cloneProduct->getKey();
+            DB::table('lunar_collection_product')->insert(json_decode(json_encode($collection), true));
+        }
+
+        ## variants with options
+        foreach ($this->variants as $variant)
+        {
+            $clonedVariant = $variant->replicate();
+            $clonedVariant->product_id = $cloneProduct->getKey();
+            $cloneProduct->variants()->save($clonedVariant);
+
+            foreach($variant->values as $value)
+            {
+                $clonedOption = $value->replicate();
+                $clonedVariant->values()->save($clonedOption);
+            }
+
+            foreach($variant->prices as $price)
+            {
+                $clonedPrice = $price->replicate();
+                $clonedVariant->prices()->save($clonedPrice);
+            }
+        }
+
+        $cloneProduct->variants()->first()->delete();
+
+        return $cloneProduct;
     }
 }

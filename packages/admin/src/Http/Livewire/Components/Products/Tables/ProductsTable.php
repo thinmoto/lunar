@@ -6,13 +6,14 @@ use Illuminate\Support\Collection;
 use Lunar\Hub\Http\Livewire\Traits\Notifies;
 use Lunar\Hub\Models\SavedSearch;
 use Lunar\Hub\Tables\Builders\ProductsTableBuilder;
+use Lunar\LivewireTables\Components\Actions\Action;
+use Lunar\LivewireTables\Components\Actions\BulkAction;
 use Lunar\LivewireTables\Components\Columns\BadgeColumn;
 use Lunar\LivewireTables\Components\Columns\ImageColumn;
 use Lunar\LivewireTables\Components\Columns\TextColumn;
 use Lunar\LivewireTables\Components\Filters\CheckboxFilter;
 use Lunar\LivewireTables\Components\Filters\SelectFilter;
 use Lunar\LivewireTables\Components\Table;
-use Lunar\Models\Brand;
 
 class ProductsTable extends Table
 {

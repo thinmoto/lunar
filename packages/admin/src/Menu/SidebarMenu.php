@@ -3,6 +3,7 @@
 namespace Lunar\Hub\Menu;
 
 use Lunar\Hub\Facades\Menu;
+use Lunar\Models\Order;
 
 final class SidebarMenu
 {
@@ -96,6 +97,9 @@ final class SidebarMenu
                 ->handle('hub.orders')
                 ->gate('catalogue:manage-orders')
                 ->route('hub.orders.index')
+                ->badge(function(){
+                    return Order::query()->where('status', 'awaiting-payment')->count();
+                })
                 ->icon('cash');
         });
 

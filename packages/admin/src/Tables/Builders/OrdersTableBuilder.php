@@ -45,7 +45,7 @@ class OrdersTableBuilder extends TableBuilder
             TextColumn::make('total')->value(function ($record) {
                 return $record->total->formatted;
             }),
-            TextColumn::make('created_at')->value(function ($record) {
+            TextColumn::make('created_at')->heading('Дата створення')->sortable()->value(function ($record) {
                 return $record->created_at?->format('d.m.Y H:i:s');
             }),
             TagsColumn::make('tags')->value(function ($record) {

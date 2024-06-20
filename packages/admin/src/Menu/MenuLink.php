@@ -14,6 +14,8 @@ class MenuLink implements MenuItem
      */
     public $name;
 
+    public $badge;
+
     /**
      * The route name.
      *
@@ -71,6 +73,13 @@ class MenuLink implements MenuItem
     public function handle($handle)
     {
         $this->handle = $handle;
+
+        return $this;
+    }
+
+    public function badge($func)
+    {
+        $this->badge = $func;
 
         return $this;
     }

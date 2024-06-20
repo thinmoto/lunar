@@ -14,6 +14,8 @@ class MenuSection extends MenuSlot
      */
     public $name;
 
+    public $badge;
+
     /**
      * The route name.
      *

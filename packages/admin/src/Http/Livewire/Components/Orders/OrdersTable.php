@@ -58,7 +58,7 @@ class OrdersTable extends Table
      */
     public function build()
     {
-        $this->filters['placed_at'] = $this->filters['placed_at'] ?? null;
+        $this->filters['created_at'] = $this->filters['created_at'] ?? null;
 
         $this->tableBuilder->addFilter(
             SelectFilter::make('status')->options(function () {
@@ -129,10 +129,10 @@ class OrdersTable extends Table
         );
 
         $this->tableBuilder->addFilter(
-            DateFilter::make('placed_at')
+            DateFilter::make('created_at')
                 ->heading('Placed at')
                 ->query(function ($filters, $query) {
-                    $value = $filters->get('placed_at');
+                    $value = $filters->get('created_at');
 
                     if (! $value) {
                         return $query;
@@ -144,7 +144,7 @@ class OrdersTable extends Table
                         return $query;
                     }
 
-                    $query->whereBetween('placed_at', [
+                    $query->whereBetween('created_at', [
                         $parts[0],
                         $parts[1],
                     ]);
@@ -241,7 +241,7 @@ class OrdersTable extends Table
             ->queryStringFilters($filters)
             ->perPage($this->perPage)
             ->sort(
-                $this->sortField ?: 'placed_at',
+                $this->sortField ?: 'created_at',
                 $this->sortDir ?: 'desc',
             )->getData();
     }

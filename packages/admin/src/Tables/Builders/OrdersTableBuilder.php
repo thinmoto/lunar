@@ -13,7 +13,7 @@ class OrdersTableBuilder extends TableBuilder
     /**
      * The field to sort using.
      */
-    public ?string $sortField = 'placed_at';
+    public ?string $sortField = 'created_at';
 
     /**
      * {@inheritDoc}
@@ -45,8 +45,8 @@ class OrdersTableBuilder extends TableBuilder
             TextColumn::make('total')->value(function ($record) {
                 return $record->total->formatted;
             }),
-            TextColumn::make('date')->value(function ($record) {
-                return $record->placed_at?->format('Y/m/d @ H:ia');
+            TextColumn::make('created_at')->value(function ($record) {
+                return $record->created_at?->format('d.m.Y H:i:s');
             }),
             TagsColumn::make('tags')->value(function ($record) {
                 return $record->tags->pluck('value');

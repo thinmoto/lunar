@@ -269,8 +269,8 @@ class Product extends BaseModel implements SpatieHasMedia
 
             foreach($variant->values as $value)
             {
-                $clonedOption = $value->replicate();
-                $clonedVariant->values()->save($clonedOption);
+                // $clonedOption = $value->replicate();
+                $clonedVariant->values()->save($value);
             }
 
             foreach($variant->prices as $price)
@@ -278,9 +278,16 @@ class Product extends BaseModel implements SpatieHasMedia
                 $clonedPrice = $price->replicate();
                 $clonedVariant->prices()->save($clonedPrice);
             }
+
+            $clonedVariant->update([
+                'sku' => $variant->sku.'-copy',
+            ]);
         }
 
         $cloneProduct->variants()->first()->delete();
+
+        $cloneProduct->channels()->detach();
+        $cloneProduct->scheduleChannel(Channel::first());
 
         return $cloneProduct;
     }

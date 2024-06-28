@@ -282,6 +282,7 @@ class Product extends BaseModel implements SpatieHasMedia
             $clonedVariant->update([
                 'sku' => $variant->sku.'-copy',
             ]);
+            
         }
 
         $cloneProduct->variants()->first()->delete();

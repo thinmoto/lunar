@@ -1,37 +1,45 @@
 <div class="overflow-hidden shadow sm:rounded-md">
-    <div class="flex">
-        <div class="flex-col" style="width: 100px">
-            AVATAR
-        </div>
-
-        <div class="flex-col">
-            <div class="flex-col px-4 py-5 space-y-4 bg-white sm:p-6">
+    <div class="flex-col px-4 py-5  bg-white sm:p-6">
+        <div class="flex gap-8 w-100">
+            <div class="flex-col space-y-4" style="flex-basis: 95%">
                 <div class="grid grid-cols-2 gap-4">
-                  <x-hub::input.group label="{{ __('adminhub::inputs.firstname') }}" for="firstname" :error="$errors->first('staff.firstname')">
-                    <x-hub::input.text wire:model="staff.firstname" name="firstname" id="firstname" :error="$errors->first('staff.firstname')" />
-                  </x-hub::input.group>
-                  <x-hub::input.group label="{{ __('adminhub::inputs.lastname') }}" for="lastname" :error="$errors->first('staff.lastname')">
-                    <x-hub::input.text wire:model="staff.lastname" name="lastname" id="lastname" :error="$errors->first('staff.lastname')" />
-                  </x-hub::input.group>
+                    <x-hub::input.group label="{{ __('adminhub::inputs.firstname') }}" for="firstname" :error="$errors->first('staff.firstname')">
+                        <x-hub::input.text wire:model="staff.firstname" name="firstname" id="firstname" :error="$errors->first('staff.firstname')" />
+                    </x-hub::input.group>
+                    <x-hub::input.group label="{{ __('adminhub::inputs.lastname') }}" for="lastname" :error="$errors->first('staff.lastname')">
+                        <x-hub::input.text wire:model="staff.lastname" name="lastname" id="lastname" :error="$errors->first('staff.lastname')" />
+                    </x-hub::input.group>
                 </div>
 
                 <x-hub::input.group label="{{ __('adminhub::inputs.email') }}" for="email" :error="$errors->first('staff.email')">
-                  <x-hub::input.text wire:model="staff.email" type="email" name="email" id="email" :error="$errors->first('staff.email')" />
+                    <x-hub::input.text wire:model="staff.email" type="email" name="email" id="email" :error="$errors->first('staff.email')" />
                 </x-hub::input.group>
 
                 <x-hub::input.group label="{{ __('adminhub::inputs.position') }}" for="position" :error="$errors->first('staff.position')">
-                  <x-hub::input.text wire:model="staff.position" type="text" name="position" id="position" :error="$errors->first('staff.position')" />
+                    <x-hub::input.text wire:model="staff.position" type="text" name="position" id="position" :error="$errors->first('staff.position')" />
                 </x-hub::input.group>
 
                 <div class="grid grid-cols-2 gap-4">
-                  <x-hub::input.group label="{{ __('adminhub::inputs.new_password') }}" for="password" :error="$errors->first('password')">
-                    <x-hub::input.text wire:model="password" type="password" name="password" id="password" :error="$errors->first('password')" />
-                  </x-hub::input.group>
-                  <x-hub::input.group label="{{ __('adminhub::inputs.new_password_confirmation') }}" for="passwordConfirmation" :error="$errors->first('password_confirmation')">
-                    <x-hub::input.text wire:model="password_confirmation" type="password" name="password_confirmation" id="passwordConfirmation" :error="$errors->first('passwordConfirmation')" />
-                  </x-hub::input.group>
+                    <x-hub::input.group label="{{ __('adminhub::inputs.new_password') }}" for="password" :error="$errors->first('password')">
+                        <x-hub::input.text wire:model="password" type="password" name="password" id="password" :error="$errors->first('password')" />
+                    </x-hub::input.group>
+                    <x-hub::input.group label="{{ __('adminhub::inputs.new_password_confirmation') }}" for="passwordConfirmation" :error="$errors->first('password_confirmation')">
+                        <x-hub::input.text wire:model="password_confirmation" type="password" name="password_confirmation" id="passwordConfirmation" :error="$errors->first('passwordConfirmation')" />
+                    </x-hub::input.group>
                 </div>
-              </div>  
+            </div>
+
+            <div class="flex-col space-y-4" style="width: 300px">
+                <x-hub::input.group label="{{ __('adminhub::inputs.avatar') }}" for="avatar" :error="$errors->first('staff.avatar')">
+                    @include('livewire.hub.partials.one-image-manager', [
+                        'filetypes' => ['image/*'],
+                        'modelKey' => 'staff',
+                        'imageKey' => 'avatar',
+                        'inline' => 'true',
+                        'embedded' => 'true'
+                    ])
+                </x-hub::input.group>
+            </div>
         </div>
     </div>
 </div>

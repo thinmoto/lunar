@@ -6,15 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Lunar\Base\Traits\HasMedia;
 use Lunar\Hub\Database\Factories\StaffFactory;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia as SpatieHasMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class Staff extends Authenticatable
+class Staff extends Authenticatable implements SpatieHasMedia
 {
     use HasFactory;
     use HasRoles;
     use Notifiable;
     use SoftDeletes;
+
+    use HasMedia {
+        registerMediaConversions as registerMediaConversionsLunar;
+    }
 
     /**
      * Return a new factory instance for the model.
@@ -139,5 +146,30 @@ class Staff extends Authenticatable
     public function savedSearches()
     {
         return $this->hasMany(SavedSearch::class);
+    }
+
+    public function getMediaByFieldKey($fieldKey)
+    {
+        if(!$this->media)
+            return false;
+
+        foreach($this->media as $image)
+            if($image->getCustomProperty('fieldKey') == $fieldKey)
+                return $image;
+
+        return false;
+    }
+
+    public function registerMediaConversions(\Spatie\MediaLibrary\MediaCollections\Models\Media $media = null): void
+    {
+        $this->addMediaConversion('post')
+            ->fit(Manipulations::FIT_CROP, 1280, 455)
+            ->nonQueued();
+
+        $this->addMediaConversion('list')
+            ->fit(Manipulations::FIT_CROP, 370, 264)
+            ->nonQueued();
+
+        $this->registerMediaConversionsLunar();
     }
 }

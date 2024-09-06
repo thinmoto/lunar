@@ -2,8 +2,10 @@
 
 namespace Lunar\Hub\Http\Livewire\Components\Settings\Staff;
 
+use App\Traits\WithOneImage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\WithFileUploads;
 use Lunar\Hub\Auth\Manifest;
 use Lunar\Hub\Http\Livewire\Traits\ConfirmsDelete;
 use Lunar\Hub\Models\Staff;
@@ -11,6 +13,8 @@ use Lunar\Hub\Models\Staff;
 class StaffShow extends AbstractStaff
 {
     use ConfirmsDelete;
+    use WithFileUploads;
+    use WithOneImage;
 
     /**
      * Whether to show the delete confirmation modal.
@@ -34,6 +38,25 @@ class StaffShow extends AbstractStaff
     public function mount()
     {
         $this->staffPermissions = $this->staff->getAllPermissions()->pluck('name');
+        $this->mountOneImage();
+    }
+
+    public function getImageFields()
+    {
+        return ['avatar'];
+    }
+
+    public function getMediaModel()
+    {
+        return $this->staff;
+    }
+
+    protected function getListeners()
+    {
+        return array_merge(
+            [],
+            $this->getOneImageListener(),
+        );
     }
 
     /**
@@ -121,6 +144,7 @@ class StaffShow extends AbstractStaff
         }
 
         $this->staff->save();
+        $this->saveOneImage();
 
         $this->syncRole();
         $this->syncPermissions();

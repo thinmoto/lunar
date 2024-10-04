@@ -36,4 +36,6 @@
   wire:ignore
 >
   <input type="file" x-ref="input">
+
+  <div style="color:#e66; text-align: center; font-size: 12px;">Максимальний розмір зображення - 2000x2000px</div>
 </div>

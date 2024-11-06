@@ -23,7 +23,7 @@ Route::group([
         Route::get('/pdf', function (Order $order, Request $request) {
             return Pdf::loadView('adminhub::pdf.order', [
                 'order' => $order,
-            ])->stream("Order-{$order->reference}.pdf");
+            ])->setOption('fontDir', public_path('/fonts'))->stream("Order-{$order->reference}.pdf");
         })->name('hub.orders.pdf');
     });
 });

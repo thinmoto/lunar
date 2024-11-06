@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <title>Order Invoice</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,600,700,800&subset=cyrillic">
     <style>
         body {
             font-size:12px;
-            font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            font-family: 'PT Sans', sans-serif;
         }
 
         .lines {
@@ -170,7 +171,7 @@
                 <tbody class="lines-body">
                   @foreach($order->physicalLines as $line)
                     <tr>
-                      <td>
+                      <td style="height: 50px;">
                         {{ $line->description }} <br>
                         {{ $line->option }}
                       </td>
@@ -181,20 +182,20 @@
                         {{ $line->quantity }}
                       </td>
                       <td>
-                        {{ $line->unit_price->formatted }}
+                        {{ str_replace('₴','UAH',$line->unit_price->formatted) }}
                       </td>
                       <td>
-                        {{ $line->discount_total->formatted }}
+                        {{ str_replace('₴','UAH',$line->discount_total->formatted) }}
                       </td>
                       <td>
                         {{ $line->tax_breakdown->sum('percentage') }}%
                       </td>
                       <td>
-                        {{ $line->tax_total->formatted }}
+                        {{ str_replace('₴','UAH',$line->tax_total->formatted) }}
                       </td>
 
                       <td>
-                        {{ $line->sub_total->formatted }}
+                        {{ str_replace('₴','UAH',$line->sub_total->formatted) }}
                       </td>
                     </tr>
                   @endforeach
@@ -203,7 +204,7 @@
                     <tr>
                         <td colspan="5"></td>
                         <td colspan="2"><strong>Sub Total</strong></td>
-                        <td>{{ $order->sub_total->formatted }}</td>
+                        <td>{{ str_replace('₴','UAH',$order->sub_total->formatted) }}</td>
                     </tr>
                     @foreach($order->shippingLines as $line)
                       <tr>
@@ -212,18 +213,18 @@
                           <strong>Shipping</strong><br>
                           <small>{{ strip_tags($line->description) }}</small>
                         </td>
-                        <td>{{ $line->sub_total->formatted }}</td>
+                        <td>{{ str_replace('₴','UAH',$line->sub_total->formatted) }}</td>
                       </tr>
                     @endforeach
                     <tr>
                         <td colspan="5"></td>
                         <td colspan="2"><strong>Tax</strong></td>
-                        <td>{{ $order->tax_total->formatted }}</td>
+                        <td>{{ str_replace('₴','UAH',$order->tax_total->formatted) }}</td>
                     </tr>
                     <tr>
                         <td colspan="5"></td>
                         <td colspan="2"><strong>Total</strong></td>
-                        <td>{{ $order->total->formatted }}</td>
+                        <td>{{ str_replace('₴','UAH',$order->total->formatted) }}</td>
                     </tr>
                 </tfoot>
             </table>

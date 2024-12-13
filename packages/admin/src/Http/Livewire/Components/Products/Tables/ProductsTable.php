@@ -73,6 +73,8 @@ class ProductsTable extends Table
 
             $product->delete();
 
+            DB::table('lunar_product_associations')->where('product_parent_id', $product->id)->delete();
+            DB::table('lunar_product_associations')->where('product_target_id', $product->id)->delete();
             DB::table('lunar_collection_product')->where('product_id', $product->id)->delete();
             DB::table('lunar_customer_group_product')->where('product_id', $product->id)->delete();
             DB::table('lunar_products')->where('id', $product->id)->delete();

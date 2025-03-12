@@ -5,9 +5,14 @@ namespace Lunar\Hub\Http\Livewire\Components\Settings\Staff;
 use Illuminate\Support\Facades\Hash;
 use Lunar\Hub\Auth\Manifest;
 use Lunar\Hub\Models\Staff;
+use App\Traits\WithOneImage;
+use Livewire\WithFileUploads;
 
 class StaffCreate extends AbstractStaff
 {
+    use WithFileUploads;
+    use WithOneImage;
+
     /**
      * Called when the component has been mounted.
      *

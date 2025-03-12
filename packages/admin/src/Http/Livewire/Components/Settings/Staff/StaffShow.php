@@ -16,8 +16,6 @@ class StaffShow extends AbstractStaff
     use WithFileUploads;
     use WithOneImage;
 
-    public $uploadedImages = [];
-
     /**
      * Whether to show the delete confirmation modal.
      *
